@@ -412,6 +412,7 @@ pub struct LibraryCApiConfig {
 
 #[derive(Debug, Default)]
 pub struct InstallCApiConfig {
+    pub name: String,
     pub include: Vec<InstallTarget>,
     pub data: Vec<InstallTarget>,
 }
@@ -859,6 +860,9 @@ fn compile_with_exec<'a>(
         let capi_config = load_manifest_capi_config(pkg)?;
         let name = &capi_config.library.name;
         let install_paths = InstallPaths::new(name, args, &capi_config);
+        ws.config().shell().verbose(
+            |s| s.note(format!("{:?}", install_paths.datadir))
+        );
         let pkg_rustflags = &capi_config.library.rustflags;
 
         let mut leaf_args: Vec<String> = rustc_target
