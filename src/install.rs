@@ -159,7 +159,8 @@ impl UnixLibNames {
     }
 }
 
-pub fn cinstall(ws: &Workspace, packages: &[CPackage]) -> anyhow::Result<()> {
+pub fn cinstall(ws: &Workspace,
+                packages: &[CPackage]) -> anyhow::Result<()> {
     for pkg in packages {
         let paths = &pkg.install_paths;
         let capi_config = &pkg.capi_config;
@@ -203,6 +204,9 @@ pub fn cinstall(ws: &Workspace, packages: &[CPackage]) -> anyhow::Result<()> {
             for (from, to) in build_targets.extra.data.iter() {
                 let to = install_path_data.join(to);
                 create_dir_all(to.parent().unwrap())?;
+                ws.config().shell().verbose(
+                    |s| s.note(format!("Copying {} -> {}", from.to_str().unwrap(), to.to_str().unwrap()))
+                )?;
                 copy(from, to)?;
             }
         }
