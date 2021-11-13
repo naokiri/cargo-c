@@ -412,7 +412,7 @@ pub struct LibraryCApiConfig {
 
 #[derive(Debug, Default)]
 pub struct InstallCApiConfig {
-    pub name: String,
+    // pub name: String,
     pub include: Vec<InstallTarget>,
     pub data: Vec<InstallTarget>,
 }
